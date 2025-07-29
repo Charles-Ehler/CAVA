@@ -156,19 +156,6 @@
             background: linear-gradient(90deg, #f9d000, #009ef4);
             transition: width 0.3s ease;
         }
-
-        /* Tooltip styling */
-        .group:hover .text-xs {
-            display: block;
-        }
-        
-        .group .absolute {
-            display: none;
-        }
-        
-        .group:hover .absolute {
-            display: block;
-        }
         
         .dropdown-menu {
             position: absolute;
@@ -480,33 +467,6 @@
         
     </div>
     
-    <!-- Training Materials Cycle Time Workshop -->
-    <div class="mt-8 bg-[#fff8e8] rounded-lg shadow-lg p-6">
-        <div class="text-center mb-6">
-            <h2 class="text-2xl font-bold text-[#00020d]">⏱ Training Materials Cycle Time Workshop</h2>
-            <p class="text-[#00020d]/80 italic">"Estimate how long each type of deliverable usually takes from request to launch."</p>
-        </div>
-        
-        <p class="text-sm text-[#00020d]/70 mb-4 text-center">
-            "Discuss each deliverable type as a team and capture realistic cycle times and dependencies. This will help us refine lead times and spot bottlenecks."
-        </p>
-        
-        <div class="overflow-x-auto">
-            <table class="w-full border-collapse">
-                <thead>
-                    <tr class="bg-[#00020d]/5">
-                        <th class="p-3 text-left font-semibold text-[#00020d] border-b border-[#00020d]/10">Training Material Type</th>
-                        <th class="p-3 text-left font-semibold text-[#00020d] border-b border-[#00020d]/10 w-32">Typical Time (Days)</th>
-                        <th class="p-3 text-left font-semibold text-[#00020d] border-b border-[#00020d]/10">Notes / Dependencies</th>
-                    </tr>
-                </thead>
-                <tbody id="cycleTimeTable">
-                    <!-- Rows will be populated by JavaScript -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-    
     <!-- Notes Sidebar -->
     <div id="notesSidebar" class="sidebar fixed top-0 right-0 w-96 h-full bg-white shadow-xl p-6 overflow-y-auto">
         <div class="flex justify-between items-center mb-4">
@@ -543,189 +503,6 @@
     </div>
     
     <script>
-        // Training Materials Data with descriptions
-        const MATERIAL_TYPES = [
-            {name: "E-learning / SCORM module", desc: "Interactive online module, often built in Rise or Storyline"},
-            {name: "Microlearning module", desc: "Bite-sized learning focused on one objective"},
-            {name: "Interactive simulation / scenario", desc: "Branching scenario with decision points"},
-            {name: "Quick compliance click-through module", desc: "Simple awareness training with acknowledgments"},
-            {name: "Refresher quiz / knowledge check", desc: "Short assessment to reinforce prior learning"},
-            {name: "Short training video (1–3 min)", desc: "Quick visual demo or microlearning clip"},
-            {name: "Instructional screencast / demo", desc: "Screen recording with narration showing a process"},
-            {name: "Full-length training video (>3 min)", desc: "Comprehensive video covering multiple concepts"},
-            {name: "Animated explainer video", desc: "Motion graphics explaining a concept visually"},
-            {name: "Voiceover update to existing video", desc: "New audio track for video content updates"},
-            {name: "Branded intro/outro snippet", desc: "Short opener/closer with CAVA branding"},
-            {name: "Job aid (single page)", desc: "Quick reference or step-by-step guide for staff"},
-            {name: "Step-by-step guide / checklist", desc: "Procedural document with ordered actions"},
-            {name: "Visual poster / laminated guide", desc: "Wall reference with minimal text, maximum visuals"},
-            {name: "Huddle / stand-up guide", desc: "Briefing document for shift meetings"},
-            {name: "SOP document or update", desc: "Official standard operating procedure document"},
-            {name: "Recipe card / prep guide", desc: "Visual instructions for food preparation"},
-            {name: "Packaging / labeling instructions", desc: "Guidance for proper product packaging"},
-            {name: "Facilitator guide", desc: "Instructor manual for leading training sessions"},
-            {name: "Participant workbook / handout", desc: "Printed materials for in-person training"},
-            {name: "PowerPoint ILT deck", desc: "Slide presentation for instructor-led training"},
-            {name: "Skills practice worksheet", desc: "Hands-on activity sheet for learners"},
-            {name: "Instructor-led assessment / quiz", desc: "Knowledge check for classroom training"},
-            {name: "LMS quick assignment", desc: "Simple task uploaded to the learning platform"},
-            {name: "Digital reference library entry", desc: "Searchable knowledge base article"},
-            {name: "How-to screencast or GIF", desc: "Short looping visual demonstrating a task"},
-            {name: "One-minute Slack/Teams video", desc: "Ultra-short message for quick updates"},
-            {name: "Compliance update module", desc: "Mandatory training on policy changes"},
-            {name: "Safety refresher video", desc: "Short reminder on safety protocols"},
-            {name: "Food safety / sanitation sheet", desc: "HACCP or cleanliness guidelines"},
-            {name: "Equipment safety job aid", desc: "Machine-specific operating instructions"}
-        ];
-
-        // Populate cycle time table
-        function populateCycleTimeTable() {
-            const tableBody = document.getElementById('cycleTimeTable');
-            tableBody.innerHTML = '';
-            
-            // Add predefined material types
-            MATERIAL_TYPES.forEach((type, index) => {
-                const row = document.createElement('tr');
-                row.className = `border-b border-[#00020d]/10 ${index % 2 === 0 ? 'bg-white' : 'bg-[#fff8e8]'} hover:bg-[#f9d000]/10`;
-                row.innerHTML = `
-                    <td class="p-3 font-medium">
-                        <div class="group relative">
-                            <div>${type.name}</div>
-                            <div class="text-xs text-[#6c757d] mt-1">${type.desc}</div>
-                            <div class="absolute hidden group-hover:block bg-white p-2 text-sm shadow-lg rounded-md w-64 z-10">
-                                ${type.desc}
-                            </div>
-                        </div>
-                    </td>
-                    <td class="p-3">
-                        <input type="number" min="0" class="w-full p-2 border border-gray-300 rounded-md cycle-time-input" 
-                               placeholder="e.g., 3 days" data-type="${type}" data-field="time">
-                    </td>
-                    <td class="p-3">
-                        <textarea class="w-full p-2 border border-gray-300 rounded-md cycle-time-notes" 
-                                  placeholder="Blockers, dependencies, review delays..." 
-                                  data-type="${type}" data-field="notes"></textarea>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
-            
-            // Add 10 blank custom rows
-            for (let i = 1; i <= 10; i++) {
-                const row = document.createElement('tr');
-                row.className = `border-b border-[#00020d]/10 ${(i + MATERIAL_TYPES.length) % 2 === 0 ? 'bg-white' : 'bg-[#fff8e8]'} hover:bg-[#f9d000]/10`;
-                row.innerHTML = `
-                    <td class="p-3">
-                        <div class="group relative">
-                            <input type="text" class="w-full p-2 border border-gray-300 rounded-md cycle-time-custom" 
-                                   placeholder="Custom Material Type" data-custom="${i}" data-field="type">
-                            <div class="text-xs text-[#6c757d] mt-1 hidden" id="custom-desc-${i}"></div>
-                        </div>
-                    </td>
-                    <td class="p-3">
-                        <input type="number" min="0" class="w-full p-2 border border-gray-300 rounded-md cycle-time-input" 
-                               placeholder="e.g., 3 days" data-custom="${i}" data-field="time">
-                    </td>
-                    <td class="p-3">
-                        <textarea class="w-full p-2 border border-gray-300 rounded-md cycle-time-notes" 
-                                  placeholder="Blockers, dependencies, review delays..." 
-                                  data-custom="${i}" data-field="notes"></textarea>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            }
-            
-            // Load saved data
-            loadCycleTimeData();
-            
-            // Set up event listeners
-            document.querySelectorAll('.cycle-time-input, .cycle-time-notes, .cycle-time-custom').forEach(input => {
-                input.addEventListener('input', debouncedSave);
-                input.addEventListener('focus', function() {
-                    this.removeAttribute('placeholder');
-                });
-                input.addEventListener('blur', function() {
-                    if (this.value.trim() === '') {
-                        if (this.classList.contains('cycle-time-input')) {
-                            this.setAttribute('placeholder', 'e.g., 3 days');
-                        } else if (this.classList.contains('cycle-time-notes')) {
-                            this.setAttribute('placeholder', 'Blockers, dependencies, review delays...');
-                        } else if (this.classList.contains('cycle-time-custom')) {
-                            this.setAttribute('placeholder', 'Custom Material Type');
-                        }
-                    }
-                });
-            });
-        }
-        
-        // Save cycle time data
-        function saveCycleTimeData() {
-            const data = [];
-            
-            // Save predefined types
-            MATERIAL_TYPES.forEach(type => {
-                const timeInput = document.querySelector(`.cycle-time-input[data-type="${type}"]`);
-                const notesInput = document.querySelector(`.cycle-time-notes[data-type="${type}"]`);
-                
-                if (timeInput || notesInput) {
-                    data.push({
-                        materialType: type,
-                        typicalTime: timeInput?.value || '',
-                        notes: notesInput?.value || ''
-                    });
-                }
-            });
-            
-            // Save custom types
-            for (let i = 1; i <= 10; i++) {
-                const typeInput = document.querySelector(`.cycle-time-custom[data-custom="${i}"]`);
-                const timeInput = document.querySelector(`.cycle-time-input[data-custom="${i}"]`);
-                const notesInput = document.querySelector(`.cycle-time-notes[data-custom="${i}"]`);
-                
-                if (typeInput?.value || timeInput?.value || notesInput?.value) {
-                    data.push({
-                        materialType: typeInput?.value || `Custom Material ${i}`,
-                        typicalTime: timeInput?.value || '',
-                        notes: notesInput?.value || ''
-                    });
-                }
-            }
-            
-            localStorage.setItem('CAVA_LD_CycleTimes', JSON.stringify(data));
-        }
-        
-        // Load cycle time data
-        function loadCycleTimeData() {
-            const savedData = localStorage.getItem('CAVA_LD_CycleTimes');
-            if (!savedData) return;
-            
-            const data = JSON.parse(savedData);
-            
-            data.forEach(item => {
-                // Check if it's a predefined type
-                if (MATERIAL_TYPES.includes(item.materialType)) {
-                    const timeInput = document.querySelector(`.cycle-time-input[data-type="${item.materialType}"]`);
-                    const notesInput = document.querySelector(`.cycle-time-notes[data-type="${item.materialType}"]`);
-                    
-                    if (timeInput) timeInput.value = item.typicalTime;
-                    if (notesInput) notesInput.value = item.notes;
-                } else {
-                    // Check if it matches a custom row
-                    for (let i = 1; i <= 10; i++) {
-                        const typeInput = document.querySelector(`.cycle-time-custom[data-custom="${i}"]`);
-                        if (typeInput && typeInput.value === item.materialType) {
-                            const timeInput = document.querySelector(`.cycle-time-input[data-custom="${i}"]`);
-                            const notesInput = document.querySelector(`.cycle-time-notes[data-custom="${i}"]`);
-                            
-                            if (timeInput) timeInput.value = item.typicalTime;
-                            if (notesInput) notesInput.value = item.notes;
-                            break;
-                        }
-                    }
-                }
-            });
-        }
-        
         // LocalStorage key
         const STORAGE_KEY = 'CAVA_LD_ProcessMap';
         
@@ -837,9 +614,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Restore saved data on load
             restoreAllData();
-            
-            // Initialize cycle time table
-            populateCycleTimeTable();
             
             // Sidebar functionality
             const notesBtn = document.getElementById('notesBtn');
@@ -991,13 +765,8 @@
                     board: [],
                     notes: document.getElementById('workshopNotes').value.trim(),
                     focus: document.getElementById('todaysFocus').value.trim(),
-                    timestamp: new Date().toISOString(),
-                    cycleTimes: []
+                    timestamp: new Date().toISOString()
                 };
-                
-                // Get cycle time data
-                const cycleTimeData = JSON.parse(localStorage.getItem('CAVA_LD_CycleTimes') || '[]');
-                data.cycleTimes = cycleTimeData;
                 
                 const roles = [
                     'Instructional Design',
