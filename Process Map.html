@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAVA Agile L&D Process Mapping Board</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --cava-yellow: #f9d000;
+            --cava-blue: #009ef4;
+            --cava-beige: #e5c185;
+            --cava-magenta: #da3d9d;
+            --cava-green: #45d17e;
+            --cava-navy: #00020d;
+            --bg-beige: #fff8e8;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-beige);
+        }
+        
+        .phase-header {
+            background: linear-gradient(135deg, #f9d00080, #009ef480);
+        }
+        
+        .lane-id {
+            background-color: rgba(249, 208, 0, 0.15);
+        }
+        
+        .lane-media {
+            background-color: rgba(0, 158, 244, 0.15);
+        }
+        
+        .lane-strategy {
+            background-color: rgba(218, 61, 157, 0.15);
+        }
+        
+        .lane-lms {
+            background-color: rgba(69, 209, 126, 0.15);
+        }
+        
+        .cell-placeholder::placeholder {
+            color: rgba(0, 2, 13, 0.3);
+            font-style: italic;
+        }
+        
+        .cell-highlight {
+            box-shadow: 0 0 0 2px var(--cava-yellow);
+        }
+        
+        .marked-for-review {
+            position: relative;
+            border: 2px solid #f9d000 !important;
+        }
+        
+        .marked-for-review::before {
+            content: "🧩";
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            font-size: 12px;
+            background-color: rgba(249, 208, 0, 0.3);
+            padding: 1px 3px;
+            border-radius: 4px;
+        }
+        
+        .toast-message {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 4px;
+            z-index: 10000;
+            animation: fadeInOut 3s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(10px); }
+            10% { opacity: 1; transform: translateY(0); }
+            90% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(10px); }
+        }
+        
+        .sidebar {
+            transition: all 0.3s ease;
+            transform: translateX(100%);
+            z-index: 9999;
+            background-color: var(--bg-beige);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sidebar.open {
+            transform: translateX(0);
+            width: 30%;
+            min-width: 300px;
+        }
+        
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .sticky-lane {
+            position: sticky;
+            left: 0;
+            z-index: 5;
+        }
+        
+        .role-tag {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            margin-right: 4px;
+        }
+        
+        .tag-id {
+            background-color: rgba(249, 208, 0, 0.2);
+            color: #8a6d00;
+        }
+        
+        .tag-media {
+            background-color: rgba(0, 158, 244, 0.2);
+            color: #006699;
+        }
+        
+        .tag-strategy {
+            background-color: rgba(218, 61, 157, 0.2);
+            color: #8a1a5c;
+        }
+        
+        .tag-lms {
+            background-color: rgba(69, 209, 126, 0.2);
+            color: #1a7d47;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            border-radius: 3px;
+            background-color: #e2e8f0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f9d000, #009ef4);
+            transition: width 0.3s ease;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 8px 0;
+            min-width: 200px;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+        }
+        
+        .dropdown-menu.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .dropdown-item {
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #f8fafc;
+        }
+        
+        @media (max-width: 1024px) {
+            .grid-container {
+                overflow-x: auto;
+                width: 100% !important;
+            }
+            
+            .sidebar.open {
+                width: 80%;
+                min-width: 250px;
+            }
+            
+            .sidebar-open .grid-container {
+                width: 100% !important;
+            }
+            
+            .header-buttons {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .header-buttons button {
+                flex: 1 1 45%;
+                min-width: 120px;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .header-buttons button {
+                flex: 1 1 100%;
+            }
+            
+            .sidebar.open {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4">
+    <div class="max-w-full mx-auto">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-[#00020d] flex items-center gap-2">
+                    <i class="fas fa-project-diagram text-[#009ef4]"></i>
+                    CAVA Agile L&D Process Mapping
+                </h1>
+                <p class="text-[#00020d]/70">Collaborative workflow visualization for restaurant learning & development</p>
+                
+            </div>
+            
+            <div class="flex flex-wrap header-buttons gap-2 w-full md:w-auto">
+                <button id="clearDataBtn" class="flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md transition-colors">
+                    <i class="fas fa-trash-alt"></i>
+                    <span class="hidden sm:inline">Clear Data</span>
+                </button>
+                <button id="notesBtn" class="flex items-center gap-2 px-4 py-2 bg-[#e5c185] hover:bg-[#d8a95e] text-[#00020d] rounded-md transition-colors">
+                    <i class="fas fa-clipboard"></i>
+                    <span class="hidden sm:inline">Notes Panel</span>
+                </button>
+                
+                
+                <button id="saveBtn" class="flex items-center gap-2 px-4 py-2 bg-[#45d17e] hover:bg-[#3bbf6d] text-white rounded-md transition-colors">
+                    <i class="fas fa-save"></i>
+                    <span class="hidden sm:inline">Save Board</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Quick Filters -->
+        <div class="mb-4 flex flex-wrap gap-2">
+            <div class="text-sm font-medium text-gray-700 flex items-center">Filter by Role:</div>
+            <button class="filter-btn active px-3 py-1 rounded-full text-xs font-medium bg-[#f9d000] text-[#00020d]" data-role="id">
+                <i class="fas fa-graduation-cap mr-1"></i> Instructional Design
+            </button>
+            <button class="filter-btn px-3 py-1 rounded-full text-xs font-medium bg-[#009ef4] text-white" data-role="media">
+                <i class="fas fa-video mr-1"></i> Media Production
+            </button>
+            <button class="filter-btn px-3 py-1 rounded-full text-xs font-medium bg-[#da3d9d] text-white" data-role="strategy">
+                <i class="fas fa-chess-queen mr-1"></i> Strategy & Quality
+            </button>
+            <button class="filter-btn px-3 py-1 rounded-full text-xs font-medium bg-[#45d17e] text-white" data-role="lms">
+                <i class="fas fa-chart-line mr-1"></i> LMS & Reporting
+            </button>
+            <button class="filter-btn px-3 py-1 rounded-full text-xs font-medium bg-gray-200 text-gray-700" data-role="all">
+                <i class="fas fa-layer-group mr-1"></i> Show All
+            </button>
+        </div>
+        
+        <!-- Main Grid -->
+        <div class="grid-container bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse">
+                    <!-- Column Headers -->
+                    <thead class="sticky-header bg-white">
+                        <tr>
+                            <th class="sticky-lane w-48 min-w-[12rem] p-3 bg-white border-r border-b border-gray-200 font-semibold text-left z-20">
+                                Role / Phase →
+                            </th>
+                            <th class="min-w-[10rem] p-3 border-b border-gray-200 phase-header font-semibold text-center">
+                                <i class="fas fa-flag mr-1"></i> Request / Trigger
+                            </th>
+                            <th class="min-w-[10rem] p-3 border-b border-gray-200 phase-header font-semibold text-center">
+                                <i class="fas fa-search mr-1"></i> Rapid Scoping (24–48 hrs)
+                            </th>
+                            <th class="min-w-[10rem] p-3 border-b border-gray-200 phase-header font-semibold text-center">
+                                <i class="fas fa-pencil-alt mr-1"></i> Fast Draft (MVP)
+                            </th>
+                            <th class="min-w-[10rem] p-3 border-b border-gray-200 phase-header font-semibold text-center">
+                                <i class="fas fa-hammer mr-1"></i> Build & Iterate
+                            </th>
+                            <th class="min-w-[10rem] p-3 border-b border-gray-200 phase-header font-semibold text-center">
+                                <i class="fas fa-check-circle mr-1"></i> Quick Review / Approval
+                            </th>
+                            <th class="min-w-[10rem] p-3 border-b border-gray-200 phase-header font-semibold text-center">
+                                <i class="fas fa-rocket mr-1"></i> Launch & Support
+                            </th>
+                            <th class="min-w-[10rem] p-3 border-b border-gray-200 phase-header font-semibold text-center">
+                                <i class="fas fa-chart-bar mr-1"></i> Monitor & Improve
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Instructional Design Row -->
+                        <tr class="lane-id hover:bg-[#f9d000]/10" data-role="id">
+                            <td class="sticky-lane p-3 border-r border-gray-200 font-medium lane-id">
+                                <div class="font-semibold flex items-center gap-2">
+                                    <i class="fas fa-graduation-cap text-[#8a6d00]"></i>
+                                    Instructional Design
+                                </div>
+                                <div class="text-xs text-gray-600 mt-1">
+                                    Learning logic, sequencing, writing, SME collaboration, Rise/Storyline building — e.g., Trisha
+                                </div>
+                                <div class="mt-2">
+                                    <span class="role-tag tag-id"><i class="fas fa-user mr-1"></i> Trisha</span>
+                                    <span class="role-tag tag-id"><i class="fas fa-clock mr-1"></i> 2d lead time</span>
+                                </div>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                        </tr>
+                        
+                        <!-- Media Production Row -->
+                        <tr class="lane-media hover:bg-[#009ef4]/10" data-role="media">
+                            <td class="sticky-lane p-3 border-r border-gray-200 font-medium lane-media">
+                                <div class="font-semibold flex items-center gap-2">
+                                    <i class="fas fa-video text-[#006699]"></i>
+                                    Media Production
+                                </div>
+                                <div class="text-xs text-gray-600 mt-1">
+                                    Video editing, graphic design, animations — e.g., Susanna
+                                </div>
+                                <div class="mt-2">
+                                    <span class="role-tag tag-media"><i class="fas fa-user mr-1"></i> Susanna</span>
+                                    <span class="role-tag tag-media"><i class="fas fa-clock mr-1"></i> 3d lead time</span>
+                                </div>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                        </tr>
+                        
+                        <!-- Program Strategy & Quality Row -->
+                        <tr class="lane-strategy hover:bg-[#da3d9d]/10" data-role="strategy">
+                            <td class="sticky-lane p-3 border-r border-gray-200 font-medium lane-strategy">
+                                <div class="font-semibold flex items-center gap-2">
+                                    <i class="fas fa-chess-queen text-[#8a1a5c]"></i>
+                                    Program Strategy & Quality
+                                </div>
+                                <div class="text-xs text-gray-600 mt-1">
+                                    Business alignment, standards, oversight, QA, approvals — e.g., leadership partners
+                                </div>
+                                <div class="mt-2">
+                                    <span class="role-tag tag-strategy"><i class="fas fa-users mr-1"></i> Leadership</span>
+                                    <span class="role-tag tag-strategy"><i class="fas fa-clock mr-1"></i> 1d lead time</span>
+                                </div>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                        </tr>
+                        
+                        <!-- LMS & Reporting Row -->
+                        <tr class="lane-lms hover:bg-[#45d17e]/10" data-role="lms">
+                            <td class="sticky-lane p-3 border-r border-gray-200 font-medium lane-lms">
+                                <div class="font-semibold flex items-center gap-2">
+                                    <i class="fas fa-chart-line text-[#1a7d47]"></i>
+                                    LMS & Reporting
+                                </div>
+                                <div class="text-xs text-gray-600 mt-1">
+                                    CAVAYou system management, delivery logistics, learner access, analytics — e.g., Jake
+                                </div>
+                                <div class="mt-2">
+                                    <span class="role-tag tag-lms"><i class="fas fa-user mr-1"></i> Jake</span>
+                                    <span class="role-tag tag-lms"><i class="fas fa-clock mr-1"></i> 1d lead time</span>
+                                </div>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                            <td class="p-1 border border-gray-200">
+                                <textarea class="w-full h-24 p-2 text-sm cell-placeholder" placeholder="Describe responsibilities..."></textarea>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+    </div>
+    
+    <!-- Notes Sidebar -->
+    <div id="notesSidebar" class="sidebar fixed top-0 right-0 w-96 h-full bg-white shadow-xl p-6 overflow-y-auto">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold text-[#00020d] flex items-center gap-2">
+                <i class="fas fa-clipboard text-[#da3d9d]"></i>
+                Workshop Notes & Actions
+            </h2>
+            <button id="closeNotesBtn" class="text-gray-500 hover:text-[#da3d9d]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Workshop Notes:</label>
+            <textarea id="workshopNotes" class="w-full h-48 p-3 border border-gray-300 rounded-md" placeholder="Capture observations, action items, and discussion notes here..."></textarea>
+        </div>
+        
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Gaps to Revisit:</label>
+            <textarea id="gapsList" class="w-full h-48 p-3 border border-gray-300 rounded-md" placeholder="List any gaps or issues that need revisiting..."></textarea>
+        </div>
+        
+        <div class="flex justify-between">
+            <button id="clearNotesBtn" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md transition-colors">
+                Clear Notes
+            </button>
+            <button id="saveNotesBtn" class="px-4 py-2 bg-[#009ef4] hover:bg-[#009ef4]/90 text-white rounded-md transition-colors flex items-center gap-2">
+                <i class="fas fa-save"></i>
+                Save Notes
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        // LocalStorage key
+        const STORAGE_KEY = 'CAVA_LD_ProcessMap';
+        
+        // Debounce function
+        function debounce(func, wait) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        }
+        
+        // Save all data to localStorage
+        function saveAllData() {
+            const data = {
+                grid: [],
+                notes: {
+                    workshop: document.getElementById('workshopNotes').value,
+                    gaps: document.getElementById('gapsList').value
+                },
+                marks: []
+            };
+            
+            // Save grid cell contents
+            document.querySelectorAll('tbody tr').forEach((row, rowIndex) => {
+                const cells = row.querySelectorAll('td:not(.sticky-lane)');
+                cells.forEach((cell, colIndex) => {
+                    const textarea = cell.querySelector('textarea');
+                    data.grid.push({
+                        row: rowIndex,
+                        col: colIndex,
+                        value: textarea.value
+                    });
+                    
+                    if (cell.classList.contains('marked-for-review')) {
+                        data.marks.push({row: rowIndex, col: colIndex});
+                    }
+                });
+            });
+            
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            showToast('Changes saved locally', 'success');
+        }
+        
+        // Restore all data from localStorage
+        function restoreAllData() {
+            const savedData = localStorage.getItem(STORAGE_KEY);
+            if (!savedData) return;
+            
+            const data = JSON.parse(savedData);
+            
+            // Restore grid cells
+            data.grid.forEach(item => {
+                const rows = document.querySelectorAll('tbody tr');
+                if (rows[item.row]) {
+                    const cells = rows[item.row].querySelectorAll('td:not(.sticky-lane)');
+                    if (cells[item.col]) {
+                        const textarea = cells[item.col].querySelector('textarea');
+                        textarea.value = item.value;
+                        if (item.value === '') {
+                            textarea.setAttribute('placeholder', 'Describe responsibilities...');
+                        }
+                    }
+                }
+            });
+            
+            // Restore marks
+            data.marks.forEach(mark => {
+                const rows = document.querySelectorAll('tbody tr');
+                if (rows[mark.row]) {
+                    const cells = rows[mark.row].querySelectorAll('td:not(.sticky-lane)');
+                    if (cells[mark.col]) {
+                        cells[mark.col].classList.add('marked-for-review');
+                    }
+                }
+            });
+            
+            // Restore notes
+            if (data.notes) {
+                document.getElementById('workshopNotes').value = data.notes.workshop || '';
+                document.getElementById('gapsList').value = data.notes.gaps || '';
+            }
+        }
+        
+        // Clear all saved data
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear all saved session data from this browser?')) {
+                localStorage.removeItem(STORAGE_KEY);
+                
+                // Reset grid cells
+                document.querySelectorAll('textarea.cell-placeholder').forEach(textarea => {
+                    textarea.value = '';
+                    textarea.setAttribute('placeholder', 'Describe responsibilities...');
+                });
+                
+                // Remove marks
+                document.querySelectorAll('.marked-for-review').forEach(cell => {
+                    cell.classList.remove('marked-for-review');
+                });
+                
+                // Clear notes
+                document.getElementById('workshopNotes').value = '';
+                document.getElementById('gapsList').value = '';
+                
+                showToast('All data cleared', 'success');
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Restore saved data on load
+            restoreAllData();
+            
+            // Sidebar functionality
+            const notesBtn = document.getElementById('notesBtn');
+            const closeNotesBtn = document.getElementById('closeNotesBtn');
+            const notesSidebar = document.getElementById('notesSidebar');
+            
+            notesBtn.addEventListener('click', function() {
+                notesSidebar.classList.add('open');
+                document.body.classList.add('sidebar-open');
+            });
+            
+            closeNotesBtn.addEventListener('click', function() {
+                notesSidebar.classList.remove('open');
+                document.body.classList.remove('sidebar-open');
+            });
+            
+            // Filter functionality
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const role = this.getAttribute('data-role');
+                    
+                    // Update active state
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    if (role !== 'all') this.classList.add('active');
+                    
+                    // Filter rows
+                    const rows = document.querySelectorAll('tbody tr');
+                    rows.forEach(row => {
+                        if (role === 'all') {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = row.getAttribute('data-role') === role ? '' : 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Textarea behavior
+            const textareas = document.querySelectorAll('textarea.cell-placeholder');
+            
+            textareas.forEach(textarea => {
+                // Remove placeholder on focus
+                textarea.addEventListener('focus', function() {
+                    this.removeAttribute('placeholder');
+                });
+                
+                // Restore placeholder if empty on blur
+                textarea.addEventListener('blur', function() {
+                    if (this.value.trim() === '') {
+                        this.setAttribute('placeholder', 'Describe responsibilities...');
+                    }
+                    debouncedSave();
+                });
+                
+                // Highlight row and column on hover
+                textarea.addEventListener('mouseenter', function() {
+                    const cell = this.parentElement;
+                    const row = cell.parentElement;
+                    const colIndex = Array.from(row.children).indexOf(cell);
+                    
+                    // Highlight entire row
+                    row.classList.add('bg-opacity-30');
+                    
+                    // Highlight entire column
+                    const rows = document.querySelectorAll('tbody tr');
+                    rows.forEach(r => {
+                        const colCell = r.children[colIndex];
+                        if (colCell) {
+                            colCell.classList.add('cell-highlight');
+                        }
+                    });
+                });
+                
+                textarea.addEventListener('mouseleave', function() {
+                    const cell = this.parentElement;
+                    const row = cell.parentElement;
+                    const colIndex = Array.from(row.children).indexOf(cell);
+                    
+                    // Remove row highlight
+                    row.classList.remove('bg-opacity-30');
+                    
+                    // Remove column highlight
+                    const rows = document.querySelectorAll('tbody tr');
+                    rows.forEach(r => {
+                        const colCell = r.children[colIndex];
+                        if (colCell) {
+                            colCell.classList.remove('cell-highlight');
+                        }
+                    });
+                });
+            });
+            
+            // Toast notification function
+            function showToast(message, type = 'info') {
+                const toast = document.createElement('div');
+                toast.className = 'toast-message';
+                toast.textContent = message;
+                
+                // Add type-specific styling
+                if (type === 'success') {
+                    toast.style.backgroundColor = '#45d17e';
+                } else if (type === 'error') {
+                    toast.style.backgroundColor = '#d9534f';
+                } else if (type === 'warning') {
+                    toast.style.backgroundColor = '#f9d000';
+                    toast.style.color = '#00020d';
+                }
+                
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            }
+            
+            // Mark/unmark cell for review
+            function toggleMarkForReview(cell) {
+                cell.classList.toggle('marked-for-review');
+                debouncedSave();
+            }
+            
+            // Helper functions to get phase and role names
+            function getPhaseName(cell) {
+                const colIndex = Array.from(cell.parentElement.children).indexOf(cell);
+                const phaseHeaders = document.querySelectorAll('thead th:not(.sticky-lane)');
+                return phaseHeaders[colIndex - 1]?.textContent.trim() || 'Unknown Phase';
+            }
+            
+            function getRoleName(cell) {
+                const row = cell.parentElement;
+                return row.querySelector('.sticky-lane .font-semibold')?.textContent.trim() || 'Unknown Role';
+            }
+            
+            // Debounced save handler
+            const debouncedSave = debounce(saveAllData, 500);
+            
+            // Set up auto-save listeners
+            document.querySelectorAll('textarea').forEach(textarea => {
+                textarea.addEventListener('input', debouncedSave);
+            });
+            
+            // Clear data button
+            document.getElementById('clearDataBtn').addEventListener('click', clearAllData);
+            
+            // Save functionality
+            const saveBtn = document.getElementById('saveBtn');
+            
+            saveBtn.addEventListener('click', function() {
+                const data = {
+                    board: [],
+                    notes: document.getElementById('workshopNotes').value.trim(),
+                    focus: document.getElementById('todaysFocus').value.trim(),
+                    timestamp: new Date().toISOString()
+                };
+                
+                const roles = [
+                    'Instructional Design',
+                    'Media Production',
+                    'Program Strategy & Quality',
+                    'LMS & Reporting'
+                ];
+                
+                const phases = [
+                    'Request / Trigger',
+                    'Rapid Scoping (24–48 hrs)',
+                    'Fast Draft (MVP)',
+                    'Build & Iterate',
+                    'Quick Review / Approval',
+                    'Launch & Support',
+                    'Monitor & Improve'
+                ];
+                
+                const rows = document.querySelectorAll('tbody tr');
+                
+                rows.forEach((row, rowIndex) => {
+                    const cells = row.querySelectorAll('td:not(.sticky-lane)');
+                    
+                    cells.forEach((cell, colIndex) => {
+                        const textarea = cell.querySelector('textarea');
+                        const notes = textarea.value.trim();
+                        const needsReview = cell.classList.contains('marked-for-review');
+                        
+                        if (notes || needsReview) {
+                            data.board.push({
+                                role: roles[rowIndex],
+                                phase: phases[colIndex],
+                                notes: notes,
+                                needsReview: needsReview
+                            });
+                        }
+                    });
+                });
+                
+                // Create and download JSON file
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `CAVA_LD_Process_Mapping_${new Date().toISOString().slice(0,10)}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                showToast('Board saved successfully!', 'success');
+            });
+            
+            // Save notes button
+            const saveNotesBtn = document.getElementById('saveNotesBtn');
+            const clearNotesBtn = document.getElementById('clearNotesBtn');
+            
+            saveNotesBtn.addEventListener('click', function() {
+                const notes = document.getElementById('workshopNotes').value.trim();
+                const focus = document.getElementById('todaysFocus').value.trim();
+                
+                if (notes || focus) {
+                    const data = {
+                        focus: focus,
+                        notes: notes,
+                        gaps: Array.from(gapsList.children)
+                            .filter(el => el.id !== 'emptyGapsMessage')
+                            .map(el => el.textContent.trim()),
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `CAVA_LD_Workshop_Notes_${new Date().toISOString().slice(0,10)}.json`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    
+                    showToast('Notes saved successfully!', 'success');
+                } else {
+                    showToast('No notes to save', 'warning');
+                }
+            });
+            
+            clearNotesBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to clear all notes?')) {
+                    document.getElementById('workshopNotes').value = '';
+                    document.getElementById('todaysFocus').value = '';
+                    showToast('Notes cleared', 'success');
+                }
+            });
+            
+            // Make textareas auto-expand
+            function adjustTextareaHeight(textarea) {
+                textarea.style.height = 'auto';
+                textarea.style.height = (textarea.scrollHeight) + 'px';
+            }
+            
+            textareas.forEach(textarea => {
+                textarea.addEventListener('input', function() {
+                    adjustTextareaHeight(this);
+                });
+                
+                // Initial adjustment
+                adjustTextareaHeight(textarea);
+            });
+            
+            // Initialize empty gaps message
+            updateGapsListVisibility();
+        });
+    </script>
+</body>
+</html>
