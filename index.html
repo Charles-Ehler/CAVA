@@ -41,8 +41,8 @@
         <!-- Header -->
         <header class="mb-8">
             <h1 class="text-3xl font-bold text-gray-900">CAVA CORE Refresh Progress Dashboard</h1>
-            <p class="text-gray-600 mt-2">Tracking progress toward internal review (Nov 7, 2025) and final delivery (Nov 17, 2025)</p>
-        </header>
+            <p class="text-gray-600 mt-2">Tracking progress toward internal readiness and final delivery of CAVA CORE Refresh (AGM + TL).</p>
+</header>
 
         <!-- KPI Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -131,23 +131,14 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Pie Chart - Course Type Distribution -->
-                <div class="bg-white rounded-xl shadow-lg p-6">
-                    <h2 class="text-xl font-semibold mb-4">Course Type Distribution</h2>
-                    <div class="h-64">
-                        <canvas id="courseTypeChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- Timeline Bar -->
+<!-- Timeline Bar -->
                 <div class="bg-white rounded-xl shadow-lg p-6">
                     <h2 class="text-xl font-semibold mb-4">Key Milestones Timeline</h2>
                     <div class="space-y-3">
                         <div>
                             <div class="flex justify-between text-sm mb-1">
                                 <span class="font-medium">Scoping & Categorization</span>
-                                <span class="text-[#009D6E] font-medium">100% (Complete – Oct 11)</span>
+                                <span class="text-[#009D6E] font-medium">100% Complete</span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-3">
                                 <div class="bg-[#009D6E] h-3 rounded-full" style="width: 100%"></div>
@@ -156,7 +147,7 @@
                         <div>
                             <div class="flex justify-between text-sm mb-1">
                                 <span class="font-medium">Outlines Finalized</span>
-                                <span class="text-[#F5B335] font-medium">25% (In Progress – Oct 18)</span>
+                                <span class="text-[#F5B335] font-medium">25% In Progress</span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-3">
                                 <div class="bg-[#F5B335] h-3 rounded-full" style="width: 25%"></div>
@@ -164,17 +155,8 @@
                         </div>
                         <div>
                             <div class="flex justify-between text-sm mb-1">
-                                <span class="font-medium">SME Reviews Assigned</span>
-                                <span class="text-[#F5B335] font-medium">20% (In Progress – Oct 21)</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-3">
-                                <div class="bg-[#F5B335] h-3 rounded-full" style="width: 20%"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-sm mb-1">
                                 <span class="font-medium">MVP Builds Begin</span>
-                                <span class="text-gray-500">0% (Start Oct 21)</span>
+                                <span class="text-gray-500">0% Not Started</span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-3">
                                 <div class="bg-gray-400 h-3 rounded-full" style="width: 0%"></div>
@@ -182,8 +164,8 @@
                         </div>
                         <div>
                             <div class="flex justify-between text-sm mb-1">
-                                <span class="font-medium">All Courses Ready for Review</span>
-                                <span class="text-gray-500">0% (Target Nov 7)</span>
+                                <span class="font-medium">Ready for Review</span>
+                                <span class="text-gray-500">0% Not Started</span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-3">
                                 <div class="bg-gray-400 h-3 rounded-full" style="width: 0%"></div>
@@ -192,13 +174,13 @@
                         <div>
                             <div class="flex justify-between text-sm mb-1">
                                 <span class="font-medium">Final Delivery</span>
-                                <span class="text-gray-500">0% (Target Nov 17)</span>
+                                <span class="text-gray-500">0% Not Started</span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-3">
                                 <div class="bg-gray-400 h-3 rounded-full" style="width: 0%"></div>
                             </div>
                         </div>
-                    </div>
+</div>
                 </div>
             </div>
 
@@ -234,22 +216,16 @@
                                     <td class="py-3 font-medium">Storyboarded</td>
                                     <td class="py-3 text-right">27</td>
                                     <td class="py-3 text-right">34%</td>
-                                    <td class="py-3 text-gray-600">Ready for SME updates</td>
-                                </tr>
-                                <tr class="border-b border-gray-100">
-                                    <td class="py-3 font-medium">SME Review</td>
-                                    <td class="py-3 text-right">27</td>
-                                    <td class="py-3 text-right">34%</td>
-                                    <td class="py-3 text-gray-600">Scheduled for completion by Nov 7</td>
+                                    <td class="py-3 text-gray-600">Ready for updates</td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 font-medium">Ready for Build</td>
                                     <td class="py-3 text-right">0</td>
                                     <td class="py-3 text-right">0%</td>
-                                    <td class="py-3 text-gray-600">Begins post-outline lock (Oct 21)</td>
+                                    <td class="py-3 text-gray-600">Begins post-outline lock</td>
                                 </tr>
                             </tbody>
-                        </table>
+</table>
                     </div>
                 </div>
 
@@ -272,7 +248,6 @@
                                     <th class="text-center py-3 font-medium">Outlined</th>
                                     <th class="text-center py-3 font-medium">Drafted</th>
                                     <th class="text-center py-3 font-medium">Storyboarded</th>
-                                    <th class="text-center py-3 font-medium">SME Review</th>
                                     <th class="text-center py-3 font-medium">Ready for Build</th>
                                 </tr>
                             </thead>
@@ -287,9 +262,6 @@
                                     </td>
                                     <td class="text-center py-3">
                                         <div class="heatmap-cell bg-blue-100 text-blue-800 font-medium rounded px-2 py-1">34%</div>
-                                    </td>
-                                    <td class="text-center py-3">
-                                        <div class="heatmap-cell bg-purple-100 text-purple-800 font-medium rounded px-2 py-1">34%</div>
                                     </td>
                                     <td class="text-center py-3">
                                         <div class="heatmap-cell bg-gray-100 text-gray-800 font-medium rounded px-2 py-1">0%</div>
@@ -307,14 +279,11 @@
                                         <div class="heatmap-cell bg-blue-100 text-blue-800 font-medium rounded px-2 py-1">34%</div>
                                     </td>
                                     <td class="text-center py-3">
-                                        <div class="heatmap-cell bg-purple-100 text-purple-800 font-medium rounded px-2 py-1">34%</div>
-                                    </td>
-                                    <td class="text-center py-3">
                                         <div class="heatmap-cell bg-gray-100 text-gray-800 font-medium rounded px-2 py-1">0%</div>
                                     </td>
                                 </tr>
                             </tbody>
-                        </table>
+</table>
                     </div>
                 </div>
 
@@ -324,53 +293,18 @@
                     <div class="space-y-2 text-gray-700">
                         <p>• 80 total CORE courses (37 AGM, 43 TL)</p>
                         <p>• 34% existing content being refreshed</p>
-                        <p>• 66% new builds starting Oct 21</p>
-                        <p>• Goal: All courses ready for review by Nov 7 → Final delivery Nov 17</p>
+                        <p>• 66% new builds in progress</p>
+                        <p>• Target: all courses ready for review before November 7; final delivery November 17</p>
                         <p>• Current progress ≈ 35% overall</p>
-                        <p class="text-red-600 font-medium">• Risks: SME bandwidth, design capacity, tight turnaround</p>
+                        <p class="text-red-600 font-medium">• Risks: bandwidth, design load, and rapid turnaround.</p>
                     </div>
-                </div>
+</div>
             </div>
         </div>
     </div>
-
     <script>
-        // Course Type Distribution Pie Chart
-        const courseTypeCtx = document.getElementById('courseTypeChart').getContext('2d');
-        const courseTypeChart = new Chart(courseTypeCtx, {
-            type: 'pie',
-            data: {
-                labels: ['Leadership / Coaching', 'Operational / System', 'Policy / Compliance', 'Financial / Performance', 'Safety / Food Standards'],
-                datasets: [{
-                    data: [36, 16, 10, 9, 9],
-                    backgroundColor: [
-                        '#009D6E',
-                        '#F5B335',
-                        '#2E7BEF',
-                        '#9C27B0',
-                        '#FF6B6B'
-                    ],
-                    borderWidth: 2,
-                    borderColor: '#ffffff'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'right',
-                        labels: {
-                            boxWidth: 12,
-                            padding: 15
-                        }
-                    }
-                }
-            }
-        });
-
         // Phase Comparison Stacked Column Chart
-        const phaseComparisonCtx = document.getElementById('phaseComparisonChart').getContext('2d');
+const phaseComparisonCtx = document.getElementById('phaseComparisonChart').getContext('2d');
         const phaseComparisonChart = new Chart(phaseComparisonCtx, {
             type: 'bar',
             data: {
@@ -392,17 +326,12 @@
                         backgroundColor: '#2E7BEF'
                     },
                     {
-                        label: 'SME Review',
-                        data: [34, 34],
-                        backgroundColor: '#9C27B0'
-                    },
-                    {
                         label: 'Ready for Build',
                         data: [0, 0],
                         backgroundColor: '#9E9E9E'
                     }
                 ]
-            },
+},
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
