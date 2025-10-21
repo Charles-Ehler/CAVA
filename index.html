@@ -3,371 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAVA CORE Refresh Progress Dashboard (AGM + TL)</title>
+    <title>CAVA Core Training Dashboard</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --cava-green: #009D6E;
-            --cava-gold: #F5B335;
-            --cava-blue: #2E7BEF;
-            --neutral-gray: #D9D9D9;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .kpi-card {
-            transition: all 0.3s ease;
-        }
-        .kpi-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-        .progress-bar {
-            transition: width 1s ease-in-out;
-        }
-        .heatmap-cell {
-            transition: all 0.3s ease;
-        }
-        .heatmap-cell:hover {
-            transform: scale(1.05);
-            z-index: 10;
-        }
-    </style>
-</head>
-<body class="bg-white text-gray-800">
-    <div class="container mx-auto px-4 py-8">
-        <!-- Header -->
-        <header class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-900">CAVA CORE Refresh Progress Dashboard</h1>
-            <p class="text-gray-600 mt-2">Tracking progress toward internal readiness and final delivery of CAVA CORE Refresh (AGM + TL).</p>
-</header>
-
-        <!-- KPI Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div class="kpi-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-[#009D6E]">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-600">Total Courses</p>
-                        <p class="text-3xl font-bold text-gray-900 mt-2">80</p>
-                    </div>
-                    <div class="w-12 h-12 bg-[#009D6E] rounded-full flex items-center justify-center">
-                        <span class="text-white font-bold">TC</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="kpi-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-[#F5B335]">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-600">Existing Courses</p>
-                        <p class="text-3xl font-bold text-gray-900 mt-2">27 <span class="text-sm font-normal text-gray-600">(34%)</span></p>
-                    </div>
-                    <div class="w-12 h-12 bg-[#F5B335] rounded-full flex items-center justify-center">
-                        <span class="text-white font-bold">EC</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="kpi-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-[#2E7BEF]">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-600">New Builds</p>
-                        <p class="text-3xl font-bold text-gray-900 mt-2">53 <span class="text-sm font-normal text-gray-600">(66%)</span></p>
-                    </div>
-                    <div class="w-12 h-12 bg-[#2E7BEF] rounded-full flex items-center justify-center">
-                        <span class="text-white font-bold">NB</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="kpi-card bg-white rounded-xl shadow-lg p-6 border-l-4 border-[#D9D9D9]">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-600">Progress Toward Review</p>
-                        <p class="text-3xl font-bold text-gray-900 mt-2">35%</p>
-                    </div>
-                    <div class="w-12 h-12 bg-[#D9D9D9] rounded-full flex items-center justify-center">
-                        <span class="text-gray-600 font-bold">PR</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- Left Column -->
-            <div class="space-y-8">
-                <!-- Bar Chart - Scope by Program -->
-                <div class="bg-white rounded-xl shadow-lg p-6">
-                    <h2 class="text-xl font-semibold mb-4">Scope by Program</h2>
-                    <div class="space-y-4">
-                        <!-- AGM Bar -->
-                        <div>
-                            <div class="flex justify-between text-sm mb-1">
-                                <span class="font-medium">AGM Core (37)</span>
-                                <span class="text-gray-600">14 existing (38%) | 23 new (62%)</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-6">
-                                <div class="flex h-6 rounded-full">
-                                    <div class="bg-[#2E7BEF] h-6 rounded-l-full" style="width: 38%"></div>
-                                    <div class="bg-[#F5B335] h-6 rounded-r-full" style="width: 62%"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- TL Bar -->
-                        <div>
-                            <div class="flex justify-between text-sm mb-1">
-                                <span class="font-medium">TL Core (43)</span>
-                                <span class="text-gray-600">13 existing (30%) | 30 new (70%)</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-6">
-                                <div class="flex h-6 rounded-full">
-                                    <div class="bg-[#2E7BEF] h-6 rounded-l-full" style="width: 30%"></div>
-                                    <div class="bg-[#F5B335] h-6 rounded-r-full" style="width: 70%"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-<!-- Timeline Bar -->
-                <div class="bg-white rounded-xl shadow-lg p-6">
-                    <h2 class="text-xl font-semibold mb-4">Key Milestones Timeline</h2>
-                    <div class="space-y-3">
-                        <div>
-                            <div class="flex justify-between text-sm mb-1">
-                                <span class="font-medium">Scoping & Categorization</span>
-                                <span class="text-[#009D6E] font-medium">100% Complete</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-3">
-                                <div class="bg-[#009D6E] h-3 rounded-full" style="width: 100%"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-sm mb-1">
-                                <span class="font-medium">Outlines Finalized</span>
-                                <span class="text-[#F5B335] font-medium">25% In Progress</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-3">
-                                <div class="bg-[#F5B335] h-3 rounded-full" style="width: 25%"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-sm mb-1">
-                                <span class="font-medium">MVP Builds Begin</span>
-                                <span class="text-gray-500">0% Not Started</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-3">
-                                <div class="bg-gray-400 h-3 rounded-full" style="width: 0%"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-sm mb-1">
-                                <span class="font-medium">Ready for Review</span>
-                                <span class="text-gray-500">0% Not Started</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-3">
-                                <div class="bg-gray-400 h-3 rounded-full" style="width: 0%"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-sm mb-1">
-                                <span class="font-medium">Final Delivery</span>
-                                <span class="text-gray-500">0% Not Started</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-3">
-                                <div class="bg-gray-400 h-3 rounded-full" style="width: 0%"></div>
-                            </div>
-                        </div>
-</div>
-                </div>
-            </div>
-
-            <!-- Right Column -->
-            <div class="space-y-8">
-                <!-- Development Stage Summary Table -->
-                <div class="bg-white rounded-xl shadow-lg p-6">
-                    <h2 class="text-xl font-semibold mb-4">Development Stage Summary</h2>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm">
-                            <thead>
-                                <tr class="border-b border-gray-200">
-                                    <th class="text-left py-3 font-medium">Stage</th>
-                                    <th class="text-right py-3 font-medium">Count</th>
-                                    <th class="text-right py-3 font-medium">% of Total</th>
-                                    <th class="text-left py-3 font-medium">Notes</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="border-b border-gray-100">
-                                    <td class="py-3 font-medium">Outlined</td>
-                                    <td class="py-3 text-right">27</td>
-                                    <td class="py-3 text-right">34%</td>
-                                    <td class="py-3 text-gray-600">Existing courses structured; new outlines in progress</td>
-                                </tr>
-                                <tr class="border-b border-gray-100">
-                                    <td class="py-3 font-medium">Drafted</td>
-                                    <td class="py-3 text-right">27</td>
-                                    <td class="py-3 text-right">34%</td>
-                                    <td class="py-3 text-gray-600">Legacy text + visuals complete</td>
-                                </tr>
-                                <tr class="border-b border-gray-100">
-                                    <td class="py-3 font-medium">Storyboarded</td>
-                                    <td class="py-3 text-right">27</td>
-                                    <td class="py-3 text-right">34%</td>
-                                    <td class="py-3 text-gray-600">Ready for updates</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3 font-medium">Ready for Build</td>
-                                    <td class="py-3 text-right">0</td>
-                                    <td class="py-3 text-right">0%</td>
-                                    <td class="py-3 text-gray-600">Begins post-outline lock</td>
-                                </tr>
-                            </tbody>
-</table>
-                    </div>
-                </div>
-
-                <!-- Stacked Column Chart -->
-                <div class="bg-white rounded-xl shadow-lg p-6">
-                    <h2 class="text-xl font-semibold mb-4">Phase Comparison (AGM vs TL)</h2>
-                    <div class="h-64">
-                        <canvas id="phaseComparisonChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- Heat Map -->
-                <div class="bg-white rounded-xl shadow-lg p-6">
-                    <h2 class="text-xl font-semibold mb-4">% Completion by Program and Stage</h2>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm">
-                            <thead>
-                                <tr class="border-b border-gray-200">
-                                    <th class="text-left py-3 font-medium">Program</th>
-                                    <th class="text-center py-3 font-medium">Outlined</th>
-                                    <th class="text-center py-3 font-medium">Drafted</th>
-                                    <th class="text-center py-3 font-medium">Storyboarded</th>
-                                    <th class="text-center py-3 font-medium">Ready for Build</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="py-3 font-medium">AGM Core</td>
-                                    <td class="text-center py-3">
-                                        <div class="heatmap-cell bg-green-100 text-green-800 font-medium rounded px-2 py-1">34%</div>
-                                    </td>
-                                    <td class="text-center py-3">
-                                        <div class="heatmap-cell bg-yellow-100 text-yellow-800 font-medium rounded px-2 py-1">34%</div>
-                                    </td>
-                                    <td class="text-center py-3">
-                                        <div class="heatmap-cell bg-blue-100 text-blue-800 font-medium rounded px-2 py-1">34%</div>
-                                    </td>
-                                    <td class="text-center py-3">
-                                        <div class="heatmap-cell bg-gray-100 text-gray-800 font-medium rounded px-2 py-1">0%</div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3 font-medium">TL Core</td>
-                                    <td class="text-center py-3">
-                                        <div class="heatmap-cell bg-green-100 text-green-800 font-medium rounded px-2 py-1">34%</div>
-                                    </td>
-                                    <td class="text-center py-3">
-                                        <div class="heatmap-cell bg-yellow-100 text-yellow-800 font-medium rounded px-2 py-1">34%</div>
-                                    </td>
-                                    <td class="text-center py-3">
-                                        <div class="heatmap-cell bg-blue-100 text-blue-800 font-medium rounded px-2 py-1">34%</div>
-                                    </td>
-                                    <td class="text-center py-3">
-                                        <div class="heatmap-cell bg-gray-100 text-gray-800 font-medium rounded px-2 py-1">0%</div>
-                                    </td>
-                                </tr>
-                            </tbody>
-</table>
-                    </div>
-                </div>
-
-                <!-- Key Insights Panel -->
-                <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-[#009D6E]">
-                    <h2 class="text-xl font-semibold mb-4">Key Insights</h2>
-                    <div class="space-y-2 text-gray-700">
-                        <p>• 80 total CORE courses (37 AGM, 43 TL)</p>
-                        <p>• 34% existing content being refreshed</p>
-                        <p>• 66% new builds in progress</p>
-                        <p>• Target: all courses ready for review before November 7; final delivery November 17</p>
-                        <p>• Current progress ≈ 35% overall</p>
-                        <p class="text-red-600 font-medium">• Risks: bandwidth, design load, and rapid turnaround.</p>
-                    </div>
-</div>
-            </div>
-        </div>
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
     <script>
-        // Phase Comparison Stacked Column Chart
-const phaseComparisonCtx = document.getElementById('phaseComparisonChart').getContext('2d');
-        const phaseComparisonChart = new Chart(phaseComparisonCtx, {
-            type: 'bar',
-            data: {
-                labels: ['AGM Core', 'TL Core'],
-                datasets: [
-                    {
-                        label: 'Outlined',
-                        data: [34, 34],
-                        backgroundColor: '#009D6E'
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cava-gold': '#F5B335',
+                        'cava-charcoal': '#2D2A26',
+                        'cava-offwhite': '#F9F7F3',
+                        'cava-blue': '#3A76B0',
+                        'cava-lightgray': '#E5E5E5',
+                        'cava-success': '#66A15A',
+                        'cava-neutral': '#C7C7C7'
                     },
-                    {
-                        label: 'Drafted',
-                        data: [34, 34],
-                        backgroundColor: '#F5B335'
-                    },
-                    {
-                        label: 'Storyboarded',
-                        data: [34, 34],
-                        backgroundColor: '#2E7BEF'
-                    },
-                    {
-                        label: 'Ready for Build',
-                        data: [0, 0],
-                        backgroundColor: '#9E9E9E'
-                    }
-                ]
-},
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        stacked: true,
-                    },
-                    y: {
-                        stacked: true,
-                        max: 100,
-                        ticks: {
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        position: 'top',
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
                     }
                 }
             }
-        });
-
-        // Initialize progress bar animations
-        document.addEventListener('DOMContentLoaded', function() {
-            const progressBars = document.querySelectorAll('.progress-bar');
-            progressBars.forEach(bar => {
-                const width = bar.style.width;
-                bar.style.width = '0%';
-                setTimeout(() => {
-                    bar.style.width = width;
-                }, 500);
-            });
-        });
+        }
     </script>
+</head>
+<body class="font-inter bg-cava-offwhite min-h-screen">
+    <custom-header></custom-header>
+    
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tabs Navigation -->
+        <div class="flex space-x-8 border-b border-cava-lightgray mb-8">
+            <a href="index.html" class="tab-nav pb-4 text-cava-gold border-b-2 border-cava-gold font-bold">Overview</a>
+            <a href="team-leader.html" class="tab-nav pb-4 text-cava-charcoal hover:text-cava-gold transition-colors">Team Leader Tracker</a>
+            <a href="agm.html" class="tab-nav pb-4 text-cava-charcoal hover:text-cava-gold transition-colors">AGM Tracker</a>
+        </div>
+
+        <!-- Executive Blurb -->
+        <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+            <p class="text-cava-charcoal text-lg leading-relaxed">
+                <em>The CAVA Core rebuilds are in storyboard development. Team Leader Core storyboards are being finalized for structure and tone alignment, while AGM Core storyboards are in active drafting and review.</em>
+            </p>
+        </div>
+
+        <!-- Metrics Header Bar -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+            <div class="metric-card">
+                <div class="metric-border"></div>
+                <div class="metric-content">
+                    <div class="metric-label">WEEKS</div>
+                    <div class="metric-value">10</div>
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-border"></div>
+                <div class="metric-content">
+                    <div class="metric-label">COURSES</div>
+                    <div class="metric-value">23</div>
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-border"></div>
+                <div class="metric-content">
+                    <div class="metric-label">LESSONS</div>
+                    <div class="metric-value">58</div>
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-border"></div>
+                <div class="metric-content">
+                    <div class="metric-label">OVERALL COMPLETION</div>
+                    <div class="metric-value">75%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Combined Project Status -->
+        <div class="bg-white rounded-xl shadow-sm p-8 mb-12">
+            <h2 class="text-xl font-bold text-cava-charcoal mb-6">COMBINED PROJECT STATUS</h2>
+            
+            <!-- Progress Bars -->
+            <div class="space-y-8 mb-10">
+                <div class="progress-item">
+                    <div class="flex justify-between mb-2">
+                        <span class="text-cava-charcoal font-semibold">Team Leader Core – 90% Complete</span>
+                        <span class="text-cava-gold text-sm">Storyboards Finalizing</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar bg-gradient-to-r from-cava-gold to-cava-blue" style="width: 90%"></div>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <div class="flex justify-between mb-2">
+                        <span class="text-cava-charcoal font-semibold">AGM Core – 60% Complete</span>
+                        <span class="text-cava-blue text-sm">Storyboards in Development</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar bg-gradient-to-r from-cava-blue to-cava-gold" style="width: 60%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Circular Progress Ring -->
+            <div class="flex justify-center">
+                <div class="circular-progress">
+                    <div class="progress-ring">
+                        <div class="progress-text">75%</div>
+                        <div class="progress-label">Overall Progress</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Tracker Table -->
+        <div class="bg-white rounded-xl shadow-sm p-8">
+            <h2 class="text-xl font-bold text-cava-charcoal mb-6">PROJECT TRACKER</h2>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full project-table">
+                    <thead>
+                        <tr>
+                            <th class="table-header">Workstream</th>
+                            <th class="table-header">Team Leader Core</th>
+                            <th class="table-header">AGM Core</th>
+                            <th class="table-header">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-row">
+                            <td class="table-cell">Storyboards</td>
+                            <td class="table-cell">
+                                <span class="status-badge status-green">Finalizing</span>
+                            </td>
+                            <td class="table-cell">
+                                <span class="status-badge status-yellow">In Development</span>
+                            </td>
+                            <td class="table-cell">Consolidating structure and tone alignment</td>
+                        </tr>
+                        <tr class="table-row">
+                            <td class="table-cell">Course Builds</td>
+                            <td class="table-cell">
+                                <span class="status-badge status-neutral">Not Started</span>
+                            </td>
+                            <td class="table-cell">
+                                <span class="status-badge status-neutral">Not Started</span>
+                            </td>
+                            <td class="table-cell">Awaiting final storyboard approvals</td>
+                        </tr>
+                        <tr class="table-row">
+                            <td class="table-cell">Internal Reviews</td>
+                            <td class="table-cell">
+                                <span class="status-badge status-neutral">Not Started</span>
+                            </td>
+                            <td class="table-cell">
+                                <span class="status-badge status-neutral">Not Started</span>
+                            </td>
+                            <td class="table-cell">Will begin after storyboard sign-off</td>
+                        </tr>
+                        <tr class="table-row">
+                            <td class="table-cell">Final QA</td>
+                            <td class="table-cell">
+                                <span class="status-badge status-neutral">Not Started</span>
+                            </td>
+                            <td class="table-cell">
+                                <span class="status-badge status-neutral">Not Started</span>
+                            </td>
+                            <td class="table-cell">Scheduled for post-build completion</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="text-center mt-6">
+                <p class="text-cava-neutral text-sm" id="last-updated">Last Updated: Loading...</p>
+            </div>
+        </div>
+    </main>
+
+    <custom-footer></custom-footer>
+
+    <!-- Component Scripts -->
+    <script src="components/header.js"></script>
+    <script src="components/footer.js"></script>
+    
+    <!-- Main Script -->
+    <script src="script.js"></script>
+    
+    <!-- Feather Icons -->
+    <script>feather.replace();</script>
+<script src="https://deepsite.hf.co/deepsite-badge.js"></script>
 </body>
 </html>
