@@ -39,12 +39,14 @@
             <a href="team-leader.html" class="tab-nav pb-4 text-cava-charcoal hover:text-cava-gold transition-colors">Team Leader Tracker</a>
             <a href="agm.html" class="tab-nav pb-4 text-cava-gold border-b-2 border-cava-gold font-bold">AGM Tracker</a>
         </div>
-
-        <!-- Metrics Section -->
+        <!-- Enhanced Metrics Section -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
                 <div class="metric-card">
                     <div class="metric-border"></div>
                     <div class="metric-content">
+                        <div class="metric-icon">
+                            <i data-feather="calendar"></i>
+                        </div>
                         <div class="metric-label">WEEKS</div>
                         <div class="metric-value">6</div>
                     </div>
@@ -52,38 +54,45 @@
                 <div class="metric-card">
                     <div class="metric-border"></div>
                     <div class="metric-content">
+                        <div class="metric-icon">
+                            <i data-feather="layers"></i>
+                        </div>
+                        <div class="metric-label">LEARNING PLANS</div>
+                        <div class="metric-value">12</div>
+                    </div>
+                </div>
+<div class="metric-card">
+                        <div class="metric-border"></div>
+                        <div class="metric-content">
+                            <div class="metric-icon">
+                                <i data-feather="book"></i>
+                            </div>
                             <div class="metric-label">COURSES</div>
-                            <div class="metric-value">12</div>
+                        <div class="metric-value">36</div>
                         </div>
                     </div>
-                    <div class="metric-card">
+<div class="metric-card">
                         <div class="metric-border"></div>
                         <div class="metric-content">
-                            <div class="metric-label">LESSONS</div>
-                            <div class="metric-value">36</div>
-                        </div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-border"></div>
-                        <div class="metric-content">
+                            <div class="metric-icon">
+                                <i data-feather="check-circle"></i>
+                            </div>
                             <div class="metric-label">VALIDATIONS</div>
                             <div class="metric-value">6</div>
                         </div>
                     </div>
                 </div>
-
-        <!-- Progress Section -->
+<!-- Progress Section -->
         <div class="bg-white rounded-xl shadow-sm p-8 mb-12">
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-xl font-bold text-cava-charcoal">PROGRESS</h2>
-                <span class="text-cava-gold font-semibold">60% Complete</span>
+                <span class="text-cava-gold font-semibold">30% Complete</span>
             </div>
-            
             <div class="progress-bar-container mb-4">
-                <div class="progress-bar bg-gradient-to-r from-cava-blue to-cava-gold" style="width: 60%"></div>
+                <div class="progress-bar" style="width: 30%" data-percentage="30%"></div>
             </div>
-            <p class="text-cava-charcoal">🟡 <em>Storyboards in development phase.</em></p>
-        </div>
+<p class="text-cava-charcoal">🟡 <em>Storyboards in Early Draft — development phase.</em></p>
+</div>
 
         <!-- Status Table -->
         <div class="bg-white rounded-xl shadow-sm p-8">
@@ -102,11 +111,11 @@
                         <tr class="table-row">
                             <td class="table-cell">Storyboards</td>
                             <td class="table-cell">
-                                <span class="status-badge status-yellow">In Development</span>
+                                <span class="status-badge status-yellow">Drafting</span>
                             </td>
                             <td class="table-cell">10 of 12 active drafts in progress</td>
                         </tr>
-                        <tr class="table-row">
+<tr class="table-row">
                             <td class="table-cell">Course Builds</td>
                             <td class="table-cell">
                                 <span class="status-badge status-neutral">Not Started</span>
@@ -142,6 +151,12 @@
     <!-- Component Scripts -->
     <script src="components/header.js"></script>
     <script src="components/footer.js"></script>
+    
+    <!-- Main Script -->
+    <script src="script.js"></script>
+    
+    <!-- Hidden admin button -->
+    <button id="force-update" onclick="updateLastUpdated()" style="display:none">Force Update</button>
     
     <!-- Main Script -->
     <script src="script.js"></script>
