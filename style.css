@@ -1,5 +1,6 @@
+
 /* Import Inter Font */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 /* CSS Variables for CAVA Brand Colors */
 :root {
@@ -10,6 +11,7 @@
     --cava-lightgray: #E5E5E5;
     --cava-success: #66A15A;
     --cava-neutral: #C7C7C7;
+    --cava-gradient: linear-gradient(135deg, #F5B335 0%, #3A76B0 100%);
 }
 
 /* Base Styles */
@@ -18,76 +20,150 @@ body {
     background-color: var(--cava-offwhite);
 }
 
-/* Tab Navigation */
+/* Enhanced Tab Navigation */
 .tab-nav {
     transition: all 0.3s ease;
+    position: relative;
 }
 
 .tab-nav:hover {
     transform: translateY(-2px);
 }
 
-/* Metric Cards */
-.metric-card {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-    padding: 0;
-    position: relative;
-    transition: all 0.3s ease;
-    overflow: hidden;
+.tab-nav:hover::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--cava-gradient);
+    animation: slideInLeft 0.3s ease-out;
 }
 
+/* Enhanced Metric Cards */
+.metric-card {
+    background: linear-gradient(135deg, #FFFFFF 0%, #F9F7F3 100%);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(45, 42, 38, 0.08);
+    padding: 0;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+    border: 1px solid rgba(229, 229, 229, 0.5);
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+.metric-card:nth-child(1) { animation-delay: 0.1s; }
+.metric-card:nth-child(2) { animation-delay: 0.2s; }
+.metric-card:nth-child(3) { animation-delay: 0.3s; }
+.metric-card:nth-child(4) { animation-delay: 0.4s; }
+
 .metric-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    transform: scale(1.03) translateY(-4px);
+    box-shadow: 0 12px 35px rgba(45, 42, 38, 0.15);
 }
 
 .metric-border {
-    height: 3px;
-    background: var(--cava-gold);
+    height: 4px;
+    background: var(--cava-gradient);
     width: 100%;
+    position: relative;
+}
+
+.metric-border::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    filter: blur(6px);
+    opacity: 0.7;
+    animation: pulseGlow 2s ease-in-out infinite;
 }
 
 .metric-content {
-    padding: 2rem 1rem;
+    padding: 2.5rem 1rem;
     text-align: center;
+    position: relative;
+}
+
+.metric-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 1rem;
+    background: var(--cava-gradient);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 15px rgba(245, 179, 53, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.metric-card:hover .metric-icon {
+    transform: scale(1.1);
 }
 
 .metric-label {
     color: var(--cava-charcoal);
     font-size: 0.75rem;
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 0.5rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.75rem;
 }
 
 .metric-value {
     color: var(--cava-blue);
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: 2.25rem;
+    font-weight: 800;
 }
 
-/* Progress Bars */
+/* Enhanced Progress Bars */
 .progress-bar-container {
-    background: var(--cava-lightgray);
-    border-radius: 9999px;
-    height: 8px;
+    background: linear-gradient(135deg, #F0F0F0 0%, #E5E5E5 100%);
+    border-radius: 12px;
+    height: 10px;
     overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .progress-bar {
     height: 100%;
-    border-radius: 9999px;
-    transition: width 1.5s ease-in-out;
+    border-radius: 12px;
+    transition: width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cava-gradient);
+    box-shadow: 0 2px 8px rgba(245, 179, 53, 0.4);
+    animation: progressFill 1.5s ease-out;
 }
 
-/* Circular Progress Ring */
+.progress-bar::after {
+    content: attr(data-percentage);
+    position: absolute;
+    right: 12px;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    font-size: 0.65rem;
+    opacity: 0.9;
+}
+/* Enhanced Circular Progress Ring */
 .circular-progress {
     position: relative;
-    width: 120px;
-    height: 120px;
+    width: 140px;
+    height: 140px;
+    margin: 0 auto;
 }
 
 .progress-ring {
@@ -97,45 +173,70 @@ body {
     background: conic-gradient(
         from 0deg,
         var(--cava-gold) 0%,
-        var(--cava-blue) 75%,
-        var(--cava-lightgray) 75%,
+        var(--cava-blue) 45%,
+        var(--cava-lightgray) 45%,
         var(--cava-lightgray) 100%
     );
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 25px rgba(45, 42, 38, 0.15);
+    position: relative;
+    animation: rotateRing 3s linear infinite;
+}
+
+.progress-ring::before {
+    content: '';
+    position: absolute;
+    width: 94%;
+    height: 94%;
+    background: white;
+    border-radius: 50%;
+    z-index: 1;
 }
 
 .progress-text {
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-size: 1.75rem;
+    font-weight: 800;
     color: var(--cava-charcoal);
+    z-index: 2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .progress-label {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--cava-charcoal);
     text-align: center;
-    margin-top: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    margin-top: 0.75rem;
+    position: relative;
+    z-index: 3;
 }
-
-/* Project Table */
+/* Enhanced Project Table */
 .project-table {
     border-collapse: separate;
     border-spacing: 0;
 }
 
 .table-header {
-    background: var(--cava-offwhite);
+    background: linear-gradient(135deg, #F9F7F3 0%, #F0F0F0 100%);
     color: var(--cava-charcoal);
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
     font-size: 0.75rem;
-    letter-spacing: 0.05em;
-    padding: 1rem;
+    letter-spacing: 0.06em;
+    padding: 1.25rem;
     text-align: left;
-    border-bottom: 1px solid var(--cava-lightgray);
+    border-bottom: 2px solid var(--cava-lightgray);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .table-row:nth-child(even) {
@@ -143,56 +244,52 @@ body {
 }
 
 .table-cell {
-    padding: 1rem;
-    border-bottom: 1px solid var(--cava-lightgray);
+    padding: 1.25rem;
+    border-bottom: 1px solid rgba(229, 229, 229, 0.6);
     color: var(--cava-charcoal);
+    transition: background-color 0.2s ease;
 }
 
-/* Status Badges */
+.table-row:hover .table-cell {
+    background: rgba(245, 179, 53, 0.03);
+}
+
+/* Enhanced Status Badges */
 .status-badge {
-    padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 600;
+    padding: 0.35rem 1rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    position: relative;
+}
+.status-green {
+    background: rgba(102, 161, 90, 0.12);
+    color: var(--cava-success);
+    border: 1px solid rgba(102, 161, 90, 0.3);
+    animation: pulseSuccess 2s ease-in-out infinite;
 }
 
-.status-green {
-    background: rgba(102, 161, 90, 0.1);
-    color: var(--cava-success);
+.status-blue {
+    background: rgba(58, 118, 176, 0.12);
+    color: var(--cava-blue);
+    border: 1px solid rgba(58, 118, 176, 0.3);
+    animation: pulseBlue 2s ease-in-out infinite;
 }
 
 .status-yellow {
-    background: rgba(245, 179, 53, 0.1);
+    background: rgba(245, 179, 53, 0.12);
     color: var(--cava-gold);
+    border: 1px solid rgba(245, 179, 53, 0.3);
+    animation: pulseGold 2s ease-in-out infinite;
 }
-
 .status-neutral {
-    background: rgba(199, 199, 199, 0.1);
+    background: rgba(199, 199, 199, 0.12);
     color: var(--cava-neutral);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .metric-card {
-        margin-bottom: 1rem;
-    }
-    
-    .table-header, .table-cell {
-        padding: 0.75rem 0.5rem;
-        font-size: 0.7rem;
-    }
-    
-    .metric-value {
-        font-size: 1.5rem;
-    }
-}
-
-/* Animation Classes */
-.animate-in {
-    animation: slideInUp 0.6s ease-out;
-}
-
-@keyframes slideInUp {
+/* Enhanced Animations */
+@keyframes fadeInUp {
     from {
         opacity: 0;
         transform: translateY(20px);
@@ -203,7 +300,94 @@ body {
     }
 }
 
-/* Tooltip Styles */
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes progressFill {
+    from {
+        transform: scaleX(0);
+        transform-origin: left;
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
+
+@keyframes pulseGlow {
+    0%, 100% {
+        opacity: 0.7;
+    }
+    50% {
+        opacity: 0.9;
+    }
+}
+
+@keyframes pulseSuccess {
+    0%, 100% {
+        box-shadow: 0 0 0 rgba(102, 161, 90, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 4px rgba(102, 161, 90, 0.2);
+    }
+}
+@keyframes pulseBlue {
+    0%, 100% {
+        box-shadow: 0 0 0 rgba(58, 118, 176, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 3px rgba(58, 118, 176, 0.2);
+    }
+}
+
+@keyframes pulseGold {
+    0%, 100% {
+        box-shadow: 0 0 0 rgba(245, 179, 53, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 3px rgba(245, 179, 53, 0.2);
+    }
+}
+@keyframes rotateRing {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .metric-card {
+        margin-bottom: 1rem;
+    }
+    
+    .table-header, .table-cell {
+        padding: 1rem 0.75rem;
+        font-size: 0.65rem;
+    }
+    
+    .metric-value {
+        font-size: 1.75rem;
+    }
+    
+    .circular-progress {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .progress-bar::after {
+        font-size: 0.6rem;
+    }
+}
+
+/* Enhanced Tooltip Styles */
 .tooltip {
     position: relative;
 }
@@ -216,9 +400,11 @@ body {
     transform: translateX(-50%);
     background: var(--cava-charcoal);
     color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-size: 0.75rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.7rem;
     white-space: nowrap;
-    z-index: 10;
+    z-index: 20;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-weight: 500;
 }
