@@ -46,12 +46,14 @@
                 <em>The CAVA Core rebuilds are in storyboard development. Team Leader Core storyboards are being finalized for structure and tone alignment, while AGM Core storyboards are in active drafting and review.</em>
             </p>
         </div>
-
-        <!-- Metrics Header Bar -->
+        <!-- Enhanced Metrics Header Bar -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
             <div class="metric-card">
                 <div class="metric-border"></div>
                 <div class="metric-content">
+                    <div class="metric-icon">
+                        <i data-feather="calendar"></i>
+                    </div>
                     <div class="metric-label">WEEKS</div>
                     <div class="metric-value">10</div>
                 </div>
@@ -59,62 +61,67 @@
             <div class="metric-card">
                 <div class="metric-border"></div>
                 <div class="metric-content">
-                    <div class="metric-label">COURSES</div>
+                    <div class="metric-icon">
+                        <i data-feather="layers"></i>
+                    </div>
+                    <div class="metric-label">LEARNING PLANS</div>
                     <div class="metric-value">23</div>
                 </div>
             </div>
-            <div class="metric-card">
+<div class="metric-card">
                 <div class="metric-border"></div>
                 <div class="metric-content">
-                    <div class="metric-label">LESSONS</div>
+                    <div class="metric-icon">
+                        <i data-feather="book"></i>
+                    </div>
+                    <div class="metric-label">COURSES</div>
                     <div class="metric-value">58</div>
                 </div>
             </div>
-            <div class="metric-card">
+<div class="metric-card">
                 <div class="metric-border"></div>
                 <div class="metric-content">
-                    <div class="metric-label">OVERALL COMPLETION</div>
-                    <div class="metric-value">75%</div>
-                </div>
+                    <div class="metric-icon">
+                        <i data-feather="check-circle"></i>
+                    </div>
+                            <div class="metric-label">OVERALL COMPLETION</div>
+                    <div class="metric-value">35%</div>
+</div>
             </div>
-        </div>
-
-        <!-- Combined Project Status -->
+</div>
+<!-- Combined Project Status -->
         <div class="bg-white rounded-xl shadow-sm p-8 mb-12">
             <h2 class="text-xl font-bold text-cava-charcoal mb-6">COMBINED PROJECT STATUS</h2>
-            
-            <!-- Progress Bars -->
+            <!-- Enhanced Progress Bars -->
             <div class="space-y-8 mb-10">
                 <div class="progress-item">
                     <div class="flex justify-between mb-2">
-                        <span class="text-cava-charcoal font-semibold">Team Leader Core – 90% Complete</span>
-                        <span class="text-cava-gold text-sm">Storyboards Finalizing</span>
+                        <span class="text-cava-charcoal font-bold">Team Leader Core – 40% Complete</span>
+                        <span class="text-cava-blue text-sm font-semibold">Storyboards in Development</span>
                     </div>
                     <div class="progress-bar-container">
-                        <div class="progress-bar bg-gradient-to-r from-cava-gold to-cava-blue" style="width: 90%"></div>
-                    </div>
+                        <div class="progress-bar" style="width: 40%" data-percentage="40%"></div>
+</div>
                 </div>
                 <div class="progress-item">
                     <div class="flex justify-between mb-2">
-                        <span class="text-cava-charcoal font-semibold">AGM Core – 60% Complete</span>
-                        <span class="text-cava-blue text-sm">Storyboards in Development</span>
+                        <span class="text-cava-charcoal font-bold">AGM Core – 30% Complete</span>
+                        <span class="text-cava-blue text-sm font-semibold">Storyboards in Early Draft</span>
                     </div>
                     <div class="progress-bar-container">
-                        <div class="progress-bar bg-gradient-to-r from-cava-blue to-cava-gold" style="width: 60%"></div>
+                        <div class="progress-bar" style="width: 30%" data-percentage="30%"></div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Circular Progress Ring -->
+</div>
+            <!-- Enhanced Circular Progress Ring -->
             <div class="flex justify-center">
                 <div class="circular-progress">
-                    <div class="progress-ring">
-                        <div class="progress-text">75%</div>
-                        <div class="progress-label">Overall Progress</div>
-                    </div>
+                    <div class="progress-ring"></div>
+                    <div class="progress-text">35%</div>
+                    <div class="progress-label">OVERALL PROGRESS</div>
                 </div>
             </div>
-        </div>
+</div>
 
         <!-- Project Tracker Table -->
         <div class="bg-white rounded-xl shadow-sm p-8">
@@ -134,14 +141,14 @@
                         <tr class="table-row">
                             <td class="table-cell">Storyboards</td>
                             <td class="table-cell">
-                                <span class="status-badge status-green">Finalizing</span>
+                                <span class="status-badge status-blue">In Development</span>
                             </td>
                             <td class="table-cell">
-                                <span class="status-badge status-yellow">In Development</span>
+                                <span class="status-badge status-yellow">In Early Draft</span>
                             </td>
                             <td class="table-cell">Consolidating structure and tone alignment</td>
                         </tr>
-                        <tr class="table-row">
+<tr class="table-row">
                             <td class="table-cell">Course Builds</td>
                             <td class="table-cell">
                                 <span class="status-badge status-neutral">Not Started</span>
@@ -174,11 +181,10 @@
                     </tbody>
                 </table>
             </div>
-
-            <div class="text-center mt-6">
-                <p class="text-cava-neutral text-sm" id="last-updated">Last Updated: Loading...</p>
+            <div class="text-center mt-8">
+                <p class="text-cava-neutral text-sm font-medium" id="last-updated">Last Updated: Loading...</p>
             </div>
-        </div>
+</div>
     </main>
 
     <custom-footer></custom-footer>
@@ -190,7 +196,10 @@
     <!-- Main Script -->
     <script src="script.js"></script>
     
+    <!-- Hidden admin button -->
+    <button id="force-update" onclick="updateLastUpdated()" style="display:none">Force Update</button>
+    
     <!-- Feather Icons -->
-    <script>feather.replace();</script>
+
 </body>
 </html>
