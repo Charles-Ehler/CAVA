@@ -25,7 +25,7 @@ class CustomFooter extends HTMLElement {
       
       <footer>
         <div class="footer-content">
-          <p class="footer-text">&copy; 2024 CAVA Core Training Dashboard. All rights reserved.</p>
+          <p class="footer-text">&copy; 2025 CAVA Core Training Dashboard.</p>
         </div>
       </footer>
     `;
