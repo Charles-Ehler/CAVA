@@ -1,0 +1,224 @@
+/* Import Inter Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+/* CSS Variables for CAVA Brand Colors */
+:root {
+    --cava-gold: #F5B335;
+    --cava-charcoal: #2D2A26;
+    --cava-offwhite: #F9F7F3;
+    --cava-blue: #3A76B0;
+    --cava-lightgray: #E5E5E5;
+    --cava-success: #66A15A;
+    --cava-neutral: #C7C7C7;
+}
+
+/* Base Styles */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--cava-offwhite);
+}
+
+/* Tab Navigation */
+.tab-nav {
+    transition: all 0.3s ease;
+}
+
+.tab-nav:hover {
+    transform: translateY(-2px);
+}
+
+/* Metric Cards */
+.metric-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    padding: 0;
+    position: relative;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.metric-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.metric-border {
+    height: 3px;
+    background: var(--cava-gold);
+    width: 100%;
+}
+
+.metric-content {
+    padding: 2rem 1rem;
+    text-align: center;
+}
+
+.metric-label {
+    color: var(--cava-charcoal);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.metric-value {
+    color: var(--cava-blue);
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+/* Progress Bars */
+.progress-bar-container {
+    background: var(--cava-lightgray);
+    border-radius: 9999px;
+    height: 8px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 1.5s ease-in-out;
+}
+
+/* Circular Progress Ring */
+.circular-progress {
+    position: relative;
+    width: 120px;
+    height: 120px;
+}
+
+.progress-ring {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        var(--cava-gold) 0%,
+        var(--cava-blue) 75%,
+        var(--cava-lightgray) 75%,
+        var(--cava-lightgray) 100%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.progress-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--cava-charcoal);
+}
+
+.progress-label {
+    font-size: 0.75rem;
+    color: var(--cava-charcoal);
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+/* Project Table */
+.project-table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table-header {
+    background: var(--cava-offwhite);
+    color: var(--cava-charcoal);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--cava-lightgray);
+}
+
+.table-row:nth-child(even) {
+    background: var(--cava-offwhite);
+}
+
+.table-cell {
+    padding: 1rem;
+    border-bottom: 1px solid var(--cava-lightgray);
+    color: var(--cava-charcoal);
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.status-green {
+    background: rgba(102, 161, 90, 0.1);
+    color: var(--cava-success);
+}
+
+.status-yellow {
+    background: rgba(245, 179, 53, 0.1);
+    color: var(--cava-gold);
+}
+
+.status-neutral {
+    background: rgba(199, 199, 199, 0.1);
+    color: var(--cava-neutral);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .metric-card {
+        margin-bottom: 1rem;
+    }
+    
+    .table-header, .table-cell {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.7rem;
+    }
+    
+    .metric-value {
+        font-size: 1.5rem;
+    }
+}
+
+/* Animation Classes */
+.animate-in {
+    animation: slideInUp 0.6s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Tooltip Styles */
+.tooltip {
+    position: relative;
+}
+
+.tooltip:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--cava-charcoal);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    z-index: 10;
+}

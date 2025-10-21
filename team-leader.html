@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Leader Tracker - CAVA Core Training Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cava-gold': '#F5B335',
+                        'cava-charcoal': '#2D2A26',
+                        'cava-offwhite': '#F9F7F3',
+                        'cava-blue': '#3A76B0',
+                        'cava-lightgray': '#E5E5E5',
+                        'cava-success': '#66A15A',
+                        'cava-neutral': '#C7C7C7'
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-inter bg-cava-offwhite min-h-screen">
+    <custom-header></custom-header>
+    
+    <main class="container mx-auto px-4 py-8">
+        <!-- Tabs Navigation -->
+        <div class="flex space-x-8 border-b border-cava-lightgray mb-8">
+            <a href="index.html" class="tab-nav pb-4 text-cava-charcoal hover:text-cava-gold transition-colors">Overview</a>
+            <a href="team-leader.html" class="tab-nav pb-4 text-cava-gold border-b-2 border-cava-gold font-bold">Team Leader Tracker</a>
+            <a href="agm.html" class="tab-nav pb-4 text-cava-charcoal hover:text-cava-gold transition-colors">AGM Tracker</a>
+        </div>
+
+        <!-- Metrics Section -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+            <div class="metric-card">
+                <div class="metric-border"></div>
+                <div class="metric-content">
+                    <div class="metric-label">WEEKS</div>
+                    <div class="metric-value">4</div>
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-border"></div>
+                <div class="metric-content">
+                    <div class="metric-label">COURSES</div>
+                    <div class="metric-value">11</div>
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-border"></div>
+                <div class="metric-content">
+                    <div class="metric-label">LESSONS</div>
+                    <div class="metric-value">22</div>
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-border"></div>
+                <div class="metric-content">
+                    <div class="metric-label">VALIDATIONS</div>
+                    <div class="metric-value">5</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Section -->
+        <div class="bg-white rounded-xl shadow-sm p-8 mb-12">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold text-cava-charcoal">PROGRESS</h2>
+                <span class="text-cava-success font-semibold">90% Complete</span>
+            </div>
+            
+            <div class="progress-bar-container mb-4">
+                <div class="progress-bar bg-gradient-to-r from-cava-gold to-cava-blue" style="width: 90%"></div>
+            </div>
+            <p class="text-cava-charcoal">🟢 <em>Storyboards Finalizing — structure alignment and tone check.</em></p>
+        </div>
+
+        <!-- Status Table -->
+        <div class="bg-white rounded-xl shadow-sm p-8">
+            <h2 class="text-xl font-bold text-cava-charcoal mb-6">STATUS OVERVIEW</h2>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full project-table">
+                    <thead>
+                        <tr>
+                            <th class="table-header">Area</th>
+                            <th class="table-header">Status</th>
+                            <th class="table-header">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-row">
+                            <td class="table-cell">Storyboards</td>
+                            <td class="table-cell">
+                                <span class="status-badge status-green">In Final Review</span>
+                            </td>
+                            <td class="table-cell">All storyboards drafted and consolidating</td>
+                        </tr>
+                        <tr class="table-row">
+                            <td class="table-cell">Course Builds</td>
+                            <td class="table-cell">
+                                <span class="status-badge status-neutral">Not Started</span>
+                            </td>
+                            <td class="table-cell">Awaiting storyboard approvals</td>
+                        </tr>
+                        <tr class="table-row">
+                            <td class="table-cell">Internal Reviews</td>
+                            <td class="table-cell">
+                                <span class="status-badge status-neutral">Not Started</span>
+                            </td>
+                            <td class="table-cell">Next step post-build</td>
+                        </tr>
+                        <tr class="table-row">
+                            <td class="table-cell">Final QA</td>
+                            <td class="table-cell">
+                                <span class="status-badge status-neutral">Not Started</span>
+                            </td>
+                            <td class="table-cell">Pending course completion</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="text-center mt-6">
+                <p class="text-cava-neutral text-sm" id="last-updated">Last Updated: Loading...</p>
+            </div>
+        </div>
+    </main>
+
+    <custom-footer></custom-footer>
+
+    <!-- Component Scripts -->
+    <script src="components/header.js"></script>
+    <script src="components/footer.js"></script>
+    
+    <!-- Main Script -->
+    <script src="script.js"></script>
+    
+    <!-- Feather Icons -->
+    <script>feather.replace();</script>
+</body>
+</html>
