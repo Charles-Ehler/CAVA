@@ -1,12 +1,12 @@
+
 // Shared JavaScript across all pages
 
 // Initialize the dashboard
 document.addEventListener('DOMContentLoaded', function() {
     initializeDashboard();
-    updateDates();
+    updateLastUpdatedDate();
     animateProgressBars();
 });
-
 // Initialize dashboard functionality
 function initializeDashboard() {
     console.log('CAVA Core Training Dashboard initialized');
@@ -33,24 +33,45 @@ function initializeDashboard() {
         cell.classList.add('tooltip');
     });
 }
+// Update last updated date from localStorage
+function updateLastUpdatedDate() {
+    const EL_ID = "last-updated";
+    const KEY = "cavaDashboardLastUpdated";
 
-// Update all dates on the page
-function updateDates() {
-    const now = new Date();
-    const formattedDate = `${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getDate().toString().padStart(2, '0')}/${now.getFullYear()}`;
-    
-    // Update header date
-    const headerDate = document.getElementById('header-date');
-    if (headerDate) {
-        headerDate.textContent = formattedDate;
+    // Format a Date -> "Month Day, Year"
+    function formatDate(d) {
+        return d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
     }
+
+    // Set text in the footer
+    function setFooterText(dateStr) {
+        const el = document.getElementById(EL_ID);
+        if (!el) return;
+        el.textContent = "Last Updated: " + dateStr;
+    }
+
+    // Initialize on load: use stored date or initialize once
+    const stored = localStorage.getItem(KEY);
+    if (stored) {
+        setFooterText(stored);
+    } else {
+        const firstSet = formatDate(new Date());
+        localStorage.setItem(KEY, firstSet);
+        setFooterText(firstSet);
+    }
+}
+// Expose a manual updater for admins (call from console or wire to a button)
+window.updateLastUpdated = function () {
+    const KEY = "cavaDashboardLastUpdated";
+    const todayStr = new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+    localStorage.setItem(KEY, todayStr);
     
-    // Update last updated date
+    // Update the display
     const lastUpdated = document.getElementById('last-updated');
     if (lastUpdated) {
-        lastUpdated.textContent = `Last Updated: ${formattedDate}`;
+        lastUpdated.textContent = "Last Updated: " + todayStr;
+    console.log('Last Updated date manually set to:', todayStr);
 }
-
 // Animate progress bars on page load
 function animateProgressBars() {
     const progressBars = document.querySelectorAll('.progress-bar');
